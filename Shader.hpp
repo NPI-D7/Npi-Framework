@@ -45,7 +45,7 @@ namespace Npi
         DVLB_s* m_dvlb;
         shaderProgram_s m_shader;
         std::vector<Uniform> unifo;
-        int m_projectionUniform, m_modelUniform, m_viewUniform;
+        //int m_projectionUniform, m_modelUniform, m_viewUniform;
         // attribute information
         std::vector<AttrInfo_> attrinfo;
         C3D_AttrInfo m_attributeInfo;
