@@ -18,5 +18,5 @@ class rn2d
     void prepare();
 
     private:
-    std::unique_ptr<Npi::Shader> rn2d;
+    std::unique_ptr<Npi::Shader> rn2dvs;
 }
