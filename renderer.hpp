@@ -67,7 +67,7 @@ namespace Npi
         /*DVLB_s* m_dvlb;
         shaderProgram_s m_shader;
         */
-        std::unique_ptr<Npi::Shader> standart;
+        std::unique_ptr<Npi::Shader> rn3d;
        
         /*
         // attribute information
