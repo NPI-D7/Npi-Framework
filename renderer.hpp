@@ -7,7 +7,7 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "vshader_shbin.h"
+#include "rn3d_shbin.h"
 #include "Shader.hpp"
 
 #include "RenderContext.hpp"
