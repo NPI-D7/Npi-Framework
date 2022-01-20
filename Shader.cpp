@@ -2,7 +2,7 @@
 
 namespace Npi
 {
-    /*Shader::Shader(std::string path, Type type)
+    Shader::Shader(std::string path, Type type)
     {
         std::vector<char> filebuffer;
         u8 f_data;
@@ -24,7 +24,7 @@ namespace Npi
 		{
 			printf("Err: ShaderNot loadet");
 		}
-        f_data = (u8)m_shaderData[0];
+        f_data = (u8)filebuffer[0];
         m_dvlb = DVLB_ParseFile((u32*)f_data, f_size);
         if (R_FAILED(shaderProgramInit(&m_shader)))
             printf("Err: Shader not loadet");
@@ -37,7 +37,7 @@ namespace Npi
 
 
 	    }
-    }*/
+    }
     Shader::Shader(const u8* tt_data, u32 tt_size, Type type)
     {
         m_dvlb = DVLB_ParseFile((u32*)tt_data, tt_size);
