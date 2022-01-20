@@ -16,7 +16,7 @@ namespace Npi
             VERTEX, //Vertex Shader
             GEOMETRY,  //Geometry shader (Not Supported)
         };
-        //Shader(std::string path, Type type);
+        Shader(std::string path, Type type);
         Shader(const u8* tt_data, u32 tt_size, Type type);
         ~Shader();
         void AddAttrLoader(int regId, GPU_FORMATS format, int count);
@@ -40,7 +40,7 @@ namespace Npi
             std::string name;
         };
         //
-        std::vector<char> m_shaderData;
+        
         //
         DVLB_s* m_dvlb;
         shaderProgram_s m_shader;
