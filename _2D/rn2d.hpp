@@ -14,7 +14,8 @@ class RN2D
     public:
     RN2D();
     ~RN2D();
+    void prepare();
 
     private:
-    Shader _2d;
+    std::unique_ptr<Npi::Shader> _2d;
 }
