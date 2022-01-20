@@ -10,7 +10,7 @@ typedef struct
 	u32 color;
 } RN2D_Vtx;
 
-class RN2D
+class rn2d
 {
     public:
     RN2D();
@@ -18,5 +18,5 @@ class RN2D
     void prepare();
 
     private:
-    std::unique_ptr<Npi::Shader> _2d;
+    std::unique_ptr<Npi::Shader> rn2d;
 }
