@@ -66,9 +66,9 @@ namespace Npi
     }
     void Shader::Load()
     {
-        m_projectionUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "projection");
-        m_modelUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "model");
-        m_viewUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "view");
+        //m_projectionUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "projection");
+        //m_modelUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "model");
+        //m_viewUniform = shaderInstanceGetUniformLocation(m_shader.vertexShader, "view");
         AttrInfo_Init(&m_attributeInfo);
         for (int i = 0; i < (int)attrinfo.size(); i++)
         {
