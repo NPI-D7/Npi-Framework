@@ -34,23 +34,23 @@ namespace Npi
         //consoleInit(GFX_TOP, NULL);
         printf("\nShader: Init");
         //Npi::Shader standart(vshader_shbin, vshader_shbin_size, Npi::Shader::Type::VERTEX);
-        standart = std::make_unique<Npi::Shader>(vshader_shbin, vshader_shbin_size, Npi::Shader::Type::VERTEX);
+        rn3d = std::make_unique<Npi::Shader>(rn3d_shbin, rn3d_shbin_size, Npi::Shader::Type::VERTEX);
         
         printf("\nShader: AddUniforms");
-        standart->AddUniformLoader("projection");
-        standart->AddUniformLoader("model");
-        standart->AddUniformLoader("view");
+        rn3d->AddUniformLoader("projection");
+        rn3d->AddUniformLoader("model");
+        rn3d->AddUniformLoader("view");
         printf("\nShader: AddAttributes");
-        standart->AddAttrLoader(0, GPU_FLOAT, 3);
-        standart->AddAttrLoader(1, GPU_FLOAT, 2);
-        standart->AddAttrLoader(2, GPU_FLOAT, 3);
-        standart->AddAttrLoader(3, GPU_FLOAT, 4);
+        rn3d->AddAttrLoader(0, GPU_FLOAT, 3);
+        rn3d->AddAttrLoader(1, GPU_FLOAT, 2);
+        rn3d->AddAttrLoader(2, GPU_FLOAT, 3);
+        rn3d->AddAttrLoader(3, GPU_FLOAT, 4);
         printf("\nShader: GetUniforms");
-        this->m_projectionUniform = standart->GetUniform("projection");
-        this->m_modelUniform = standart->GetUniform("model");
-        this->m_viewUniform = standart->GetUniform("view");
+        this->m_projectionUniform = rn3d->GetUniform("projection");
+        this->m_modelUniform = rn3d->GetUniform("model");
+        this->m_viewUniform = rn3d->GetUniform("view");
         printf("\nShader: Load");
-        standart->Load();
+        rn3d->Load();
         printf("\nShader: GetAttrInfo");
         //this->m_attributeInfo = standart.GetAttrInfo();
         /*//shader
@@ -459,10 +459,10 @@ namespace Npi
 
     // private methods
     void Renderer::prepare() {
-        C3D_BindProgram(standart->GetShader());
+        C3D_BindProgram(rn3d->GetShader());
 
         // initialize and configure attributes
-        C3D_SetAttrInfo(standart->GetAttrInfo());
+        C3D_SetAttrInfo(rn3d->GetAttrInfo());
 
         // Configure the first fragment shading substage to blend the fragment primary color
         // with the fragment secondary color.
