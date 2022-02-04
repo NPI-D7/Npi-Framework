@@ -86,3 +86,42 @@ rn2d::~rn2d()
 	linearFree(inctx->idxBuf);
 	linearFree(inctx->vtxBuf);
 }
+
+void rn2d::prepare()
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return;
+
+	inctx->flags  = (inctx->flags &~ (RN2DF_Mode_Mask|RN2DF_ProcTex_Mask)) | RN2DF_DirtyAny;
+	inctx->curTex = NULL;
+
+	C3D_BindProgram(rn2dvs->GetShader());
+	C3D_SetAttrInfo(rn2dvs->GetAttrInfo());
+	C3D_SetBufInfo(&inctx->bufInfo);
+
+	// texenv usage:
+	// 0..4: used by switchable mode
+	// 5..6: used by post processing
+	C3D_TexEnv* env;
+
+	// Configure texenv4 as a no-op (reserved)
+	env = C3D_GetTexEnv(4);
+	C3D_TexEnvInit(env);
+
+	// Configure texenv5 to apply the fade color
+	// texenv5.rgb = mix(texenv4.rgb, fadeclr.rgb, fadeclr.a);
+	// texenv5.a   = texenv4.a;
+	env = C3D_GetTexEnv(5);
+	C3D_TexEnvInit(env);
+	C3D_TexEnvSrc(env, C3D_RGB, GPU_PREVIOUS, GPU_CONSTANT, GPU_CONSTANT);
+	C3D_TexEnvOpRgb(env, GPU_TEVOP_RGB_SRC_COLOR, GPU_TEVOP_RGB_SRC_COLOR, GPU_TEVOP_RGB_ONE_MINUS_SRC_ALPHA);
+	C3D_TexEnvFunc(env, C3D_RGB, GPU_INTERPOLATE);
+	C3D_TexEnvColor(env, inctx->fadeClr);
+
+	// Configure depth test to overwrite pixels with the same depth (needed to draw overlapping sprites)
+	C3D_DepthTest(true, GPU_GEQUAL, GPU_WRITE_ALL);
+
+	// Don't cull anything
+	C3D_CullFace(GPU_CULL_NONE);
+}
+
