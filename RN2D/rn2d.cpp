@@ -199,3 +199,11 @@ void rn2d::RestoreView(const C3D_Mtx* matrix)
 	Mtx_Copy(&inctx->mdlvMtx, matrix);
 	inctx->flags |= RN2DF_DirtyMdlv;
 }
+
+void rn2d::InitDisplay()
+{
+	display = std::make_unique<Npi::Display>(400, 320, GFX_TOP, GFXLEFT, GPU_RGB8, GPU_RB_DEPTH16, GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) |
+			GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) |
+			GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO));
+
+}

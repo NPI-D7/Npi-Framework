@@ -2,6 +2,7 @@
 #include <3ds.h>
 #include "Shader.hpp"
 #include "rn2d_shbin.h"
+#include "Display.hpp"
 #include <memory>
 
 typedef struct
@@ -87,7 +88,8 @@ class rn2d
 	void ShearView(float x, float y);
 	void ScaleView(float x, float y);
 	//Display
-	
+	void InitDisplay();
+	std::unique_ptr<npi::Display> display;
     private:
 	void IFlush();
     bool CheckBufSpace(unsigned idx, unsigned vtx);
