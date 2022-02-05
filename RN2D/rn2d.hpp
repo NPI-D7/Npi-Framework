@@ -75,8 +75,21 @@ class rn2d
     rn2d();
     ~rn2d();
     void prepare();
+	bool Flush();
+	void SceneSize(u32 width, u32 height, bool tilt);
     inline CTX* GetCTX(){return inctx;}
+	//View
+	void ResetView();
+	void SaveView(C3D_Mtx* matrix);
+	void RestoreView(const C3D_Mtx* matrix);
+	void TranlateView(float , float y);
+	void RotateView(float delta);
+	void ShearView(float x, float y);
+	void ScaleView(float x, float y);
+	//Display
+	
     private:
+	void IFlush();
     bool CheckBufSpace(unsigned idx, unsigned vtx);
 	CTX* inctx;
     //////////////////////////////////////////////////////////////////////////////////////////

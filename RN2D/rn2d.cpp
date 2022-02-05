@@ -125,3 +125,77 @@ void rn2d::prepare()
 	C3D_CullFace(GPU_CULL_NONE);
 }
 
+void rn2d::IFlush()
+{
+	size_t len = inctx->idxBufPos - inctx->idxBufLastPos;
+	if (!len) return;
+	C3D_DrawElements(GPU_TRIANGLES, len, C3D_UNSIGNED_SHORT, &inctx->idxBuf[inctx->idxBufLastPos]);
+	inctx->idxBufLastPos = inctx->idxBufPos;
+}
+
+bool rn2d::Flush()
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return;
+
+	this->IFlush();
+}
+
+void rn2d::SceneSize(u32 width, u32 height, bool tilt)
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return;
+
+	if (tilt)
+	{
+		u32 temp = width;
+		width = height;
+		height = temp;
+	}
+
+	inctx->flags |= RN2DF_DirtyProj;
+	inctx->sceneW = width;
+	inctx->sceneH = height;
+
+	// Check for cached projection matrices
+	if (height == GSP_SCREEN_WIDTH && tilt)
+	{
+		if (width == GSP_SCREEN_HEIGHT_TOP || width == GSP_SCREEN_HEIGHT_TOP_2X)
+		{
+			Mtx_Copy(&inctx->projMtx, &rn_projTop);
+			return;
+		}
+		else if (width == GSP_SCREEN_HEIGHT_BOTTOM)
+		{
+			Mtx_Copy(&inctx->projMtx, &rn_projBot);
+			return;
+		}
+	}
+
+	// Construct the projection matrix
+	(tilt ? Mtx_OrthoTilt : Mtx_Ortho)(&inctx->projMtx, 0.0f, width, height, 0.0f, 1.0f, -1.0f, true);
+}
+
+void rn2d::ResetView()
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return;
+
+	Mtx_Identity(&inctx->mdlvMtx);
+	inctx->flags |= RN2DF_DirtyMdlv;
+
+}
+
+void rn2d::SaveView(C3D_Mtx* matrix)
+{
+	Mtx_Copy(matrix, &inctx->mdlvMtx);
+}
+
+void rn2d::RestoreView(const C3D_Mtx* matrix)
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return;
+
+	Mtx_Copy(&inctx->mdlvMtx, matrix);
+	inctx->flags |= RN2DF_DirtyMdlv;
+}
