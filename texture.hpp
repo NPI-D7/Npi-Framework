@@ -109,7 +109,6 @@ namespace Npi {
         int m_width, m_height;
         std::string m_path;
         C3D_Tex* m_texture;
-        //C2D_Image m_image;
         Tex3DS_SubTexture m_subtexture;
     };
 } /* Npi */
