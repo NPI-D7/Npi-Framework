@@ -12,7 +12,7 @@ bool rn2d::CheckBufSpace(unsigned idx, unsigned vtx)
 
 static void FrameEndHook(void* unused)
 {
-	//C2Di_FlushVtxBuf();
+	this->IFlush();
 	ictx->GetCTX()->vtxBufPos = 0;
 	ictx->GetCTX()->idxBufPos = 0;
 	ictx->GetCTX()->idxBufLastPos = 0;
@@ -200,10 +200,56 @@ void rn2d::RestoreView(const C3D_Mtx* matrix)
 	inctx->flags |= RN2DF_DirtyMdlv;
 }
 
-void rn2d::InitDisplay()
+void rn2d::InitDisplays()
 {
-	display = std::make_unique<Npi::Display>(400, 320, GFX_TOP, GFXLEFT, GPU_RGB8, GPU_RB_DEPTH16, GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) |
+	D7Top = std::make_unique<Npi::Display>(!gfxIsWide() ? 400 : 800, 320, GFX_TOP, GFXLEFT, GPU_RGB8, GPU_RB_DEPTH16, GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) |
+			GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) |
+			GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO));
+	D7Bottom = std::make_unique<Npi::Display>(400, 320, GFX_BOTTOM, GFXLEFT, GPU_RGB8, GPU_RB_DEPTH16, GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) |
+			GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) |
+			GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO));
+	D7TopRight = std::make_unique<Npi::Display>(!gfxIsWide() ? 400 : 800, 320, GFX_TOP, GFXRIGHT, GPU_RGB8, GPU_RB_DEPTH16, GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) |
 			GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) |
 			GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO));
 
+}
+
+void rn2d::ClearDisplay(Npi::Display *display, u32 color)
+{
+	this->IFlush();
+	C3D_FrameSplit(0);
+	C3D_RenderTargetClear(display->getRenderTarget(), C3D_CLEAR_ALL, __builtin_bswap32(color), 0);
+}
+
+void rn2d::Fade(u32 color)
+{
+	if (!(inctx->flags & RN2DF_Active))
+		return false;
+
+	inctx->flags |= RN2DF_DirtyFade;
+	inctx->fadeClr = color;
+}
+
+void rn2d::SetTintMode(C2D_TintMode mode)
+{
+	C2Di_Context* ctx = C2Di_GetContext();
+	if (!(ctx->flags & C2DiF_Active))
+		return false;
+
+	u32 new_mode;
+	switch (mode)
+	{
+		default:
+		case C2D_TintSolid:
+			new_mode = C2DiF_Mode_ImageSolid;
+			break;
+		case C2D_TintMult:
+			new_mode = C2DiF_Mode_ImageMult;
+			break;
+		case C2D_TintLuma:
+			new_mode = C2DiF_Mode_ImageLuma;
+			break;
+	}
+
+	ctx->flags = (ctx->flags &~ C2DiF_TintMode_Mask) | (new_mode << (C2DiF_TintMode_Shift - C2DiF_Mode_Shift));
 }

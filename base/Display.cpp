@@ -11,7 +11,7 @@ namespace Npi {
         m_type(type),
         m_flags(flags)
         {
-            m_target = C3D_RenderTargetCreate(t_width, t_height, cbuf, type);
+            m_target = C3D_RenderTargetCreate(t_height, t_width, cbuf, type);
             if (m_target)
 		C3D_RenderTargetSetOutput(m_target, screen, side, flags);
     }

@@ -88,8 +88,12 @@ class rn2d
 	void ShearView(float x, float y);
 	void ScaleView(float x, float y);
 	//Display
-	void InitDisplay();
-	std::unique_ptr<npi::Display> display;
+	void InitDisplays();
+	void ClearDisplay(Npi::Display *display, u32 color)
+	void Fade(u32 color)
+	std::unique_ptr<Npi::Display> D7Top;
+	std::unique_ptr<Npi::Display> D7Bottom;
+	std::unique_ptr<Npi::Display> D7TopRight;
     private:
 	void IFlush();
     bool CheckBufSpace(unsigned idx, unsigned vtx);
