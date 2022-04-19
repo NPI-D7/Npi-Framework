@@ -13,6 +13,11 @@ namespace Npi {
 
         void setHeight(float t_height);
         float getHeight();
+        /**
+         * @brief Draws the mesh
+         * @param t_context The RenderContext
+         */
+        void draw(Npi::RenderContext t_context);
 
     private:
         void update();

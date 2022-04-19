@@ -19,8 +19,8 @@ namespace Npi {
         linearFree(m_vbo);
     }
 
-    void Mesh::addPolygon(Npi::Mesh::Polygon t_polygon) {
-        Npi::Mesh::Polygon::Vertex vertex0 = t_polygon.getVertex(0),
+    void Mesh::addPolygon(Npi::Polygon t_polygon) {
+        Npi::Polygon::Vertex vertex0 = t_polygon.getVertex(0),
                                    vertex1 = t_polygon.getVertex(1),
                                    vertex2 = t_polygon.getVertex(2);
 
@@ -219,48 +219,11 @@ namespace Npi {
         return m_useTexture;
     }
 
-    void Mesh::draw(Npi::RenderContext t_context) {
-        if (t_context.getMode() == Npi::RenderContext::Mode::_3D) {
-            // manipulate modelview matrix
-            Mtx_Identity(&t_context.getModelMatrix());
-            Mtx_Translate(&t_context.getModelMatrix(), m_posX, m_posY,  -1.87 - m_posZ, true);
-            Mtx_RotateX(&t_context.getModelMatrix(), m_rotationX, true);
-            Mtx_RotateY(&t_context.getModelMatrix(), m_rotationY, true);
-            Mtx_RotateZ(&t_context.getModelMatrix(), m_rotationZ, true);
-            Mtx_Scale(&t_context.getModelMatrix(), m_scaleX, m_scaleY, m_scaleZ);
-
-            // set material
-            C3D_LightEnvMaterial(&t_context.getLightEnvironment(), m_material.getMaterial());
-
-            if (m_useTexture) {
-                // enable textures
-                t_context.enableTextures(true);
-
-                // bind the texture
-                C3D_TexSetFilter(m_texture.getTexture(), GPU_LINEAR, GPU_LINEAR);
-                C3D_TexBind(0, m_texture.getTexture());
-            } else {
-                // disable textures
-                t_context.enableTextures(false);
-            }
-
-            // create buffer
-            C3D_BufInfo* bufInfo = C3D_GetBufInfo();
-            BufInfo_Init(bufInfo);
-            BufInfo_Add(bufInfo, m_vbo, sizeof(Npi::Mesh::Polygon::Vertex), 3, 0x210);
-
-            // update the uniforms
-            C3D_FVUnifMtx4x4(GPU_VERTEX_SHADER, t_context.getModelUniform(),  &t_context.getModelMatrix());
-
-            // draw the VBO
-            C3D_DrawArrays(GPU_TRIANGLES, 0, m_vertices.size());
-        }
-    }
 
     // protected methods
     void Mesh::updateVBO() {
         linearFree(m_vbo);
-        m_vbo = static_cast<Npi::Mesh::Polygon::Vertex*>(linearAlloc(m_vertices.size() * sizeof(Npi::Mesh::Polygon::Vertex)));
+        m_vbo = static_cast<Npi::Polygon::Vertex*>(linearAlloc(m_vertices.size() * sizeof(Npi::Polygon::Vertex)));
 
         for (unsigned int i = 0; i < m_vertices.size(); i++) {
             float x = m_vertices[i].position[0],
@@ -272,7 +235,7 @@ namespace Npi {
                  ny = m_vertices[i].normal[1],
                  nz = m_vertices[i].normal[2];
 
-            m_vbo[i] = (Npi::Mesh::Polygon::Vertex) { { x, y, z }, { u, v }, { nx, ny, nz } };
+            m_vbo[i] = (Npi::Polygon::Vertex) { { x, y, z }, { u, v }, { nx, ny, nz } };
         }
     }
 } /* Npi */

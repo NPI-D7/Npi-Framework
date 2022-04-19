@@ -6,6 +6,7 @@
 #include "color.hpp"
 #include "texture.hpp"
 #include "vertex.hpp"
+#include "polygon.hpp"
 
 namespace Npi {
     /**
@@ -13,49 +14,6 @@ namespace Npi {
      */
     class Mesh: public Npi::RObject {
     public:
-        /**
-         * @brief Defines a polygon used by meshes
-         */
-        class Polygon {
-        public:
-            /**
-             * @brief Represents a vertex of a polygon
-             */
-            struct Vertex {
-                float position[3]; ///< the position
-                float texcoord[2]; ///< the texture coordinates
-                float normal[3];   ///< the normals
-                float color[4];    ///< the colors
-            };
-
-            /**
-             * @brief Initializes the polygon
-             * @param t_vertex0 The first vertex
-             * @param t_vertex1 The second vertex
-             * @param t_vertex2 The third vertex
-             */
-            Polygon(Npi::Mesh::Polygon::Vertex t_vertex0, Npi::Mesh::Polygon::Vertex t_vertex1, Npi::Mesh::Polygon::Vertex t_vertex2);
-
-            /**
-             * @brief Sets the vertices of the polygon
-             * @param t_vertex0 The first vertex
-             * @param t_vertex1 The second vertex
-             * @param t_vertex2 The third vertex
-             */
-            void setVertices(Npi::Mesh::Polygon::Vertex t_vertex0, Npi::Mesh::Polygon::Vertex t_vertex1, Npi::Mesh::Polygon::Vertex t_vertex2);
-
-            /**
-             * @brief Returns a vertex given it's id
-             * @param  t_id The id of the vertex
-             * @return      The vertex at the given id
-             */
-            Npi::Mesh::Polygon::Vertex getVertex(int t_id);
-
-        private:
-            /* data */
-            Npi::Mesh::Polygon::Vertex m_vertices[3];
-        };
-
         /**
          * @brief Initializes the mesh
          */
@@ -70,7 +28,7 @@ namespace Npi {
          * @brief Adds a polygon to the mesh
          * @param t_polygon The polygon to add
          */
-        void addPolygon(Npi::Mesh::Polygon t_polygon);
+        void addPolygon(Npi::Polygon t_polygon);
 
         /**
          * @brief Removes all vertices
@@ -316,11 +274,8 @@ namespace Npi {
          */
         bool isTextureBound();
 
-        /**
-         * @brief Draws the mesh
-         * @param t_context The RenderContext
-         */
-        void draw(Npi::RenderContext t_context);
+        inline std::vector<Npi::Polygon::Vertex> GetVertecies() { return this->m_vertices; }
+        inline Npi::Polygon::Vertex* GetVbo() { return this->m_vbo; }
 
     protected:
         /**
@@ -334,8 +289,8 @@ namespace Npi {
         bool m_useTexture;
 
         // polygons
-        std::vector<Npi::Mesh::Polygon::Vertex> m_vertices;
-        Npi::Mesh::Polygon::Vertex* m_vbo;
+        std::vector<Npi::Polygon::Vertex> m_vertices;
+        Npi::Polygon::Vertex* m_vbo;
 
         // display properties
         Npi::Texture m_texture;
