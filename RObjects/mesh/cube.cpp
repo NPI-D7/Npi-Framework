@@ -151,6 +151,7 @@ namespace Npi {
             C3D_FVUnifMtx4x4(GPU_VERTEX_SHADER, t_context.getModelUniform(),  &t_context.getModelMatrix());
 
             // draw the VBO
+            C3D_CullFace(GPU_CULL_NONE);
             C3D_DrawArrays(GPU_TRIANGLES, 0, this->GetVertecies().size());
         }
     }

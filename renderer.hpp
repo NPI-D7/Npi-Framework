@@ -41,6 +41,8 @@ namespace Npi
         void drawBottom(Npi::RObject& t_object, std::function<bool()> t_shadingFunction, Npi::RenderContext::Mode t_mode = Npi::RenderContext::Mode::_2D, int t_layer = 0);
         static int getScreenWidth(Npi::RenderContext::ScreenTarget t_target);
         static int getScreenHeight();
+        int GetPolyCount();
+        int GetDrawCalls();
 
         void setCamera(Npi::Camera t_camera, Npi::RenderContext::ScreenTarget t_target);
         Npi::Camera& getCamera(Npi::RenderContext::ScreenTarget t_target);

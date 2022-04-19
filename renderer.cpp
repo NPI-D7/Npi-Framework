@@ -2,6 +2,9 @@
 
 Npi::Camera _1, _2;
 
+extern int polygoncount;
+int drawcalls = 0;
+
 namespace Npi
 {
     Renderer::Renderer(bool _3d) :
@@ -102,8 +105,19 @@ namespace Npi
         delete m_targetTopRight;
         delete m_targetBottom;
     }
+
+    int Renderer::GetPolyCount()
+    {
+        return polygoncount;
+    }
+    int Renderer::GetDrawCalls()
+    {
+        return drawcalls;
+    }
+
     void Renderer::Render(bool d_clear)
     {
+        drawcalls = 0;
         printf("\nRenderer: Start Drawing");
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         printf("\nRenderer: Clear");
@@ -131,6 +145,7 @@ namespace Npi
                 for(const auto &entry : m_drawStackBottom3d) { // for every layer
                     for(const auto &robj : entry.second) { // draw every object
                         if (robj.second()) {
+                            drawcalls++;
                             robj.first->draw(Npi::RenderContext(
                                 m_modelUniform, // modelUniform
                                 m_3dEnabled, // 3dEnabled
@@ -167,6 +182,7 @@ namespace Npi
                 for (const auto &entry : m_drawStackTop3d) { // for every layer
                     for (const auto &robj : entry.second) { // draw every object
                         if (robj.second()) {
+                            drawcalls++;
                             robj.first->draw(Npi::RenderContext(
                                 m_modelUniform, // modelUniform
                                 m_3dEnabled, // 3dEnabled
@@ -197,6 +213,7 @@ namespace Npi
                     for (const auto &entry : m_drawStackTop3d) { // for every layer
                         for (const auto &robj : entry.second) { // draw every object
                             if (robj.second()) {
+                                drawcalls++;
                                 robj.first->draw(Npi::RenderContext(
                                     m_modelUniform, // modelUniform
                                     m_3dEnabled, // 3dEnabled
@@ -228,6 +245,7 @@ namespace Npi
                 for(const auto &entry : m_drawStackBottom2d) { // for every layer
                     for(const auto &robj : entry.second) { // draw every object
                         if (robj.second()) {
+                            drawcalls++;
                             robj.first->draw(Npi::RenderContext(
                                 m_modelUniform, // modelUniform
                                 m_3dEnabled, // 3dEnabled
@@ -252,6 +270,7 @@ namespace Npi
                 for(const auto &entry : m_drawStackTop2d) { // for every layer
                     for(const auto &robj : entry.second) { // draw every object
                         if (robj.second()) {
+                            drawcalls++;
                             robj.first->draw(Npi::RenderContext(
                                 m_modelUniform, // modelUniform
                                 m_3dEnabled, // 3dEnabled
@@ -273,6 +292,7 @@ namespace Npi
                     for(const auto &entry : m_drawStackTop2d) { // for every layer
                         for(const auto &robj : entry.second) { // draw every object
                             if (robj.second()) {
+                                drawcalls++;
                                 robj.first->draw(Npi::RenderContext(
                                     m_modelUniform, // modelUniform
                                     m_3dEnabled, // 3dEnabled
