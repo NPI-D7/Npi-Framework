@@ -15,8 +15,15 @@ namespace Npi
 
         for (unsigned m = 0; m < loader.LoadedMaterials.size(); m++)
         {
-            Material tm(loader.LoadedMaterials[m].Ka.X, loader.LoadedMaterials[m].Ka.Y, loader.LoadedMaterials[m].Ka.Z, loader.LoadedMaterials[m].Kd.X, loader.LoadedMaterials[m].Kd.Y, loader.LoadedMaterials[m].Ks.Z, loader.LoadedMaterials[m].Ks.X, loader.LoadedMaterials[m].Ks.Y, loader.LoadedMaterials[m].Ks.Z);
+            Material tm(loader.LoadedMaterials[m].Ka.X*255, loader.LoadedMaterials[m].Ka.Y*255, loader.LoadedMaterials[m].Ka.Z*255, loader.LoadedMaterials[m].Kd.X*255, loader.LoadedMaterials[m].Kd.Y*255, loader.LoadedMaterials[m].Ks.Z*255, loader.LoadedMaterials[m].Ks.X*255, loader.LoadedMaterials[m].Ks.Y*255, loader.LoadedMaterials[m].Ks.Z*255);
             this->setMaterial(tm);
+            if (loader.LoadedMaterials[m].map_Kd != "")
+            {
+                Npi::Texture tex;
+                tex.loadFromFile("romfs:/gfx2/" + loader.LoadedMaterials[m].map_Kd);
+                this->bindTexture(tex);
+            }
+            
             //
         }
         for (unsigned n = 0; n < loader.LoadedMeshes.size(); n++)
