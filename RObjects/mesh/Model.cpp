@@ -15,7 +15,7 @@ namespace Npi
 
         for (unsigned m = 0; m < loader.LoadedMaterials.size(); m++)
         {
-            Material tm(loader.LoadedMaterials[m].Ka.X, loader.LoadedMaterials[m].Ka.Y, loader.LoadedMaterials[m].Ka.Z, loader.LoadedMaterials[m].Kd.X, loader.LoadedMaterials[m].Kd.Y, loader.LoadedMaterials[m].Ks.Z, loader.LoadedMaterials[m].Ks.X, loader.LoadedMaterials[m].Ks.Y, loader.LoadedMaterials[m].Ks.Z);
+            ObjMaterial tm(loader.LoadedMaterials[m].Ka.X, loader.LoadedMaterials[m].Ka.Y, loader.LoadedMaterials[m].Ka.Z, loader.LoadedMaterials[m].Kd.X, loader.LoadedMaterials[m].Kd.Y, loader.LoadedMaterials[m].Ks.Z, loader.LoadedMaterials[m].Ks.X, loader.LoadedMaterials[m].Ks.Y, loader.LoadedMaterials[m].Ks.Z);
             this->setMaterial(tm);
             //
         }
