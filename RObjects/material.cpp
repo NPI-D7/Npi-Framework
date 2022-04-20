@@ -11,10 +11,10 @@ namespace Npi {
 
     Material::Material(int kar, int kag, int kab, int kdr, int kdg, int kdb, int ksr, int ksg, int ksb)
     {
-         this->setAmbient(kar, kag, kab);
-         this->setDiffuse(kdr, kdg, kdb);
-         this->setSpecular0(ksr, kdg, ksb);
-
+        this->setAmbient(kar, kag, kab);
+        this->setDiffuse(kdr, kdg, kdb);
+        this->setSpecular0(ksr, kdg, ksb);
+        updateMaterial();
     }
 
     Material::Material(C3D_Material t_material) {

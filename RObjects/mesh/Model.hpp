@@ -1,6 +1,6 @@
 #pragma once
 #include "mesh.hpp"
-#include "ObjMateial.hpp"
+//#include "ObjMateial.hpp"
 
 namespace Npi {
     
@@ -12,7 +12,7 @@ namespace Npi {
     private:
         void update();
 
-        std::vector<Npi::ObjMaterial> mats;
+        //std::vector<Npi::ObjMaterial> mats;
         float m_length, m_width, m_height;
     };
 } /* Npi */
