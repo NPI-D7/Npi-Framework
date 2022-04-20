@@ -95,6 +95,8 @@ namespace Npi {
          */
         Npi::Texture& operator=(Npi::Texture& rhs);
 
+        void Wrap(GPU_TEXTURE_WRAP_PARAM s, GPU_TEXTURE_WRAP_PARAM t);
+
     private:
         enum class FileType {
             Png,

@@ -203,4 +203,9 @@ namespace Npi {
         v++;
         return v >= 64 ? v : 64;
     }
+
+    void Texture::Wrap(GPU_TEXTURE_WRAP_PARAM s, GPU_TEXTURE_WRAP_PARAM t)
+    {
+        C3D_TexSetWrap(this->m_texture, s, t);
+    }
 } /* Npi */

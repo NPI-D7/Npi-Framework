@@ -54,6 +54,10 @@ namespace Npi {
 
         void enableTextures(bool t_enable);
 
+        inline void SetPrimitiveType(GPU_Primitive_t type) { this->m_type = type; }
+
+        inline GPU_Primitive_t GetPrimitiveType() { return this->m_type; }
+
     private:
         /* data */
         int m_modelUniformLocation;
@@ -61,6 +65,7 @@ namespace Npi {
         Npi::RenderContext::Mode m_mode;
         Npi::RenderContext::Stereo3dSide m_side;
         Npi::RenderContext::ScreenTarget m_target;
+        GPU_Primitive_t m_type = GPU_TRIANGLES;
         C3D_Mtx &m_model;
         C3D_LightEnv& m_lightEnv;
         C3D_Light& m_light;
