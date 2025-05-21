@@ -4,6 +4,7 @@
 
 namespace Npi {
 void Init() {
+  osSetSpeedupEnable(true);
   aptInit();
   romfsInit();
   cfguInit();

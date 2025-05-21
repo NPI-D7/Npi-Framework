@@ -1,10 +1,9 @@
 #include <filesystem>
+#include <npi/nmdl.hpp>
 #include <npi/renderer/roc/Model.hpp>
 
-#include <npi/nmdl.hpp>
-
 namespace Npi {
-bool Model::LoadFromFile(std::string path) {
+bool Model::LoadFromFile(const std::string& path) {
   NMDL::Model m;
   std::cout << "Loading Model" << std::endl;
   NMDL::Load(m, path);
